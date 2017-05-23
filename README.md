@@ -1,2 +1,4 @@
 # PracticalTest02
-colocviu EIM
+Dragan Daniela
+
+342C1
