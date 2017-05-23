@@ -13,7 +13,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -68,14 +72,28 @@ public class CommunicationThread extends Thread {
             HashMap<String, String> data = serverThread.getData();
             String resultFromURL = null;
 
-            Socket newSock = new Socket(Constants.URL);
+     //      Socket newSock = new Socket(Constants.URL);
+
+            Date date = Calendar.getInstance().getTime();
+            //
+            // Display a date in day, month, year format
+            //
+            DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            String today = formatter.format(date);
+            Log.d(Constants.TAG, "Today : " + today);
+
+            String recv_day = today.substring(2);
+            String recv_month = today.substring(2);
+            String recv_year = today.substring(2);
+
+            Log.d(Constants.TAG, recv_day + recv_month + recv_year);
 
             if (resultFromURL == null) {
-                Log.e(Constants.TAG, "[COMMUNICATION THREAD] Weather Forecast Information is null!");
+                Log.e(Constants.TAG, "[COMMUNICATION THREAD] result information is null!");
                 return;
             }
 
-
+            String result = null;
 
             printWriter.println(result);
             printWriter.flush();
@@ -83,11 +101,6 @@ public class CommunicationThread extends Thread {
             Log.e(Constants.TAG, "[COMMUNICATION THREAD] An exception has occurred: " + ioException.getMessage());
             if (Constants.DEBUG) {
                 ioException.printStackTrace();
-            }
-        } catch (JSONException jsonException) {
-            Log.e(Constants.TAG, "[COMMUNICATION THREAD] An exception has occurred: " + jsonException.getMessage());
-            if (Constants.DEBUG) {
-                jsonException.printStackTrace();
             }
         } finally {
             if (socket != null) {
